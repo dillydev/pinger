@@ -18,14 +18,25 @@ steps:
   - cmd/Pinger/main.go
 
 # Build and tag the Docker image.
+# - name: 'gcr.io/cloud-builders/docker'
+#   id: Docker Build
+#   args:
+#   - build
+#   - --build-arg
+#   - EXEC_NAME=$_EXEC_NAME
+#   - -t
+#   - 'us.gcr.io/${PROJECT_ID}/${_EXEC_NAME}:${BRANCH_NAME}_${SHORT_SHA}'
+#   - '.'
+
+# This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
-  id: Docker Build
+  id: Build
   args:
-  - build
+  - 'build'
   - --build-arg
   - EXEC_NAME=$_EXEC_NAME
-  - -t
-  - 'us.gcr.io/${PROJECT_ID}/${_EXEC_NAME}:${BRANCH_NAME}_${SHORT_SHA}'
+  - '-t'
+  - 'gcr.io/$PROJECT_ID/hello-cloudbuild:$SHORT_SHA'
   - '.'
 
 # Retag the current image into latest.
@@ -33,7 +44,7 @@ steps:
   id: Docker Push
   args:
   - 'push'
-  - 'us.gcr.io/$PROJECT_ID/pinger:$SHORT_SHA'
+  - 'gcr.io/$PROJECT_ID/pinger:$SHORT_SHA'
 
 # clone env repo
 - name: 'gcr.io/cloud-builders/git'
