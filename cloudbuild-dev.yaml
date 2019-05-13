@@ -38,7 +38,8 @@ steps:
 # clone env repo
 - name: 'gcr.io/cloud-builders/git'
   args:
-  - ['clone', 'https://github.com/dillydev/pinger-env']
+  - clone 
+  - https://github.com/dillydev/pinger-env
   - |
     cd pinger-env && \
     git checkout candidate-dev
