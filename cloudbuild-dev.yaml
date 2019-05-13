@@ -15,7 +15,7 @@ steps:
   - build
   - -mod=vendor
   - -o=./$_EXEC_NAME
-  - cmd/$_EXEC_NAME/main.go
+  - cmd/Pinger/main.go
 
 # Build and tag the Docker image.
 - name: 'gcr.io/cloud-builders/docker'
