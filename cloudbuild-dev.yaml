@@ -1,0 +1,63 @@
+# List of custom substitution variables.
+# Important - Custom variables must begin with '_'.
+substitutions:
+  _EXEC_NAME: pinger
+
+# Build steps for the cloud build process.
+steps:
+
+# Build the GO binary.
+# Important - The 'golang:alpine' image points to the latest go version.
+- name: 'golang:alpine'
+  id: Go Build
+  args:
+  - go
+  - build
+  - -mod=vendor
+  - -o=./$_EXEC_NAME
+  - cmd/$_EXEC_NAME/main.go
+
+# Build and tag the Docker image.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Docker Build
+  args:
+  - build
+  - --build-arg
+  - EXEC_NAME=$_EXEC_NAME
+  - -t
+  - 'us.gcr.io/${PROJECT_ID}/${_EXEC_NAME}:${BRANCH_NAME}_${SHORT_SHA}'
+  - '.'
+
+# Retag the current image into latest.
+- name: 'gcr.io/cloud-builders/docker'
+  id: Docker Push
+  args:
+  - 'push'
+  - 'gcr.io/$PROJECT_ID/pinger:$SHORT_SHA'
+
+# clone env repo
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - ['clone', 'https://github.com/dillydev/pinger-env']
+  - |
+    cd pinger-env && \
+    git checkout candidate-dev
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Generate Manifest
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" kubernetes.yaml.tpl | \
+    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > pinger-env/kubernetes.yaml
+
+# push new manifest
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - |
+    cd pinger-env && \
+    git add kubernetes.yaml && \
+    git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA}
+    Build from commit ${Commit_SHA} of repository pinger" && \
+    git push origin candidate-dev
