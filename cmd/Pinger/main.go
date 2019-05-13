@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	// run the thing
+	// update folder name
 	cli.Execute()
 }
