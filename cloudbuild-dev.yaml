@@ -36,7 +36,7 @@ steps:
   - --build-arg
   - EXEC_NAME=$_EXEC_NAME
   - '-t'
-  - 'gcr.io/$PROJECT_ID/hello-cloudbuild:$SHORT_SHA'
+  - 'gcr.io/$PROJECT_ID/pinger:$SHORT_SHA'
   - '.'
 
 # Retag the current image into latest.
