@@ -33,7 +33,7 @@ steps:
   id: Docker Push
   args:
   - 'push'
-  - 'gcr.io/$PROJECT_ID/pinger:$SHORT_SHA'
+  - 'us.gcr.io/$PROJECT_ID/pinger:$SHORT_SHA'
 
 # clone env repo
 - name: 'gcr.io/cloud-builders/git'
