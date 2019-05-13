@@ -1,7 +1,7 @@
 # List of custom substitution variables.
 # Important - Custom variables must begin with '_'.
 substitutions:
-  _EXEC_NAME: pinger
+  _EXEC_NAME: 'pinger'
 
 # Build steps for the cloud build process.
 steps:
