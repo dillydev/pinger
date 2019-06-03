@@ -52,7 +52,6 @@ steps:
   args:
   - |
     git clone https://github.com/dillydev/pinger-env
-    # cd pinger-env && git checkout candidate-dev
 
 - name: 'gcr.io/cloud-builders/git'
   id: Generate Manifest
