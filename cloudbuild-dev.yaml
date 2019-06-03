@@ -49,9 +49,12 @@ steps:
 # clone env repo
 - name: 'gcr.io/cloud-builders/git'
   id: Checkout environment repo
+  entrypoint: /bin/sh
   args:
-  - clone
-  - https://github.com/dillydev/pinger-env
+  - '-c'
+  - |
+    git clone https://github.com/dillydev/pinger-env && \
+    git config --global user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
 
 - name: 'gcr.io/cloud-builders/git'
   id: Generate Manifest
@@ -74,5 +77,4 @@ steps:
     git add kubernetes.yaml && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA}
     Build from commit ${Commit_SHA} of repository pinger" && \
-    git config user.email 'dylan.parker@codecave.app' && \
     git push origin candidate-dev
