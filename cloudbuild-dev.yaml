@@ -50,8 +50,8 @@ steps:
 - name: 'gcr.io/cloud-builders/git'
   id: Checkout environment repo
   args:
-  - |
-    clone https://github.com/dillydev/pinger-env
+  - clone
+  - https://github.com/dillydev/pinger-env
 
 - name: 'gcr.io/cloud-builders/git'
   id: Generate Manifest
