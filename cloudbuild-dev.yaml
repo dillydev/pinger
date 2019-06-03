@@ -51,7 +51,7 @@ steps:
   id: Checkout environment repo
   args:
   - |
-    git clone https://github.com/dillydev/pinger-env
+    clone https://github.com/dillydev/pinger-env && \
     cd pinger-env && git checkout candidate-dev
 
 - name: 'gcr.io/cloud-builders/git'
