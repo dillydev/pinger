@@ -48,12 +48,14 @@ steps:
 
 # clone env repo
 - name: 'gcr.io/cloud-builders/git'
+  id: Checkout environment repo
   args:
   - clone 
   - https://github.com/dillydev/pinger-env
   - |
     cd pinger-env && \
-    git checkout candidate-dev
+    git checkout candidate-dev \
+    ls
 
 - name: 'gcr.io/cloud-builders/git'
   id: Generate Manifest
@@ -67,6 +69,7 @@ steps:
 
 # push new manifest
 - name: 'gcr.io/cloud-builders/git'
+  id: Push new manifest
   args:
   - |
     cd pinger-env && \
