@@ -74,4 +74,5 @@ steps:
     git add kubernetes.yaml && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA}
     Build from commit ${Commit_SHA} of repository pinger" && \
+    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)') && \
     git push origin candidate-dev
