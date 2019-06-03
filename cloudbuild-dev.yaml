@@ -63,14 +63,14 @@ steps:
     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" kubernetes.yaml.tpl | \
     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > pinger-env/kubernetes.yaml
 
-# # push new manifest
-# - name: 'gcr.io/cloud-builders/git'
-#   id: Push new manifest
-#   args:
-#   - '-c'
-#   - |
-#     cd pinger-env && \
-#     git add kubernetes.yaml && \
-#     git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA}
-#     Build from commit ${Commit_SHA} of repository pinger" && \
-#     git push origin candidate-dev
+# push new manifest
+- name: 'gcr.io/cloud-builders/git'
+  id: Push new manifest
+  args:
+  - '-c'
+  - |
+    cd pinger-env && \
+    git add kubernetes.yaml && \
+    git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA}
+    Build from commit ${Commit_SHA} of repository pinger" && \
+    git push origin candidate-dev
