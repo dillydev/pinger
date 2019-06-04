@@ -36,7 +36,7 @@ steps:
     Hostname github.com
     IdentityFile /root/.ssh/id_rsa
     EOF
-    mv known-hosts /root/.ssh/known-hosts
+    mv known_hosts /root/.ssh/known_hosts
   volumes:
   - name: 'ssh'
     path: /root/.ssh
