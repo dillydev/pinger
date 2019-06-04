@@ -98,7 +98,6 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
 
-
 # push new manifest
 - name: 'gcr.io/cloud-builders/git'
   id: Push new manifest
