@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"errors"
 
 	protobuf "github.com/dgparker/pinger/api/protobuf"
 )
@@ -17,5 +16,7 @@ func New() (*Server, error) {
 
 // Ping ...
 func (s *Server) Ping(context.Context, *protobuf.PingRequest) (*protobuf.PingResponse, error) {
-	return nil, errors.New("not implemented")
+	return &protobuf.PingResponse{
+		Message: "jakob broke this",
+	}, nil
 }
