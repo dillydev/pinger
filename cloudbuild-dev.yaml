@@ -11,13 +11,14 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   id: load github key
   args:
-  - kms
-  - decrypt
-  - --ciphertext-file=id_rsa.enc
-  - --plaintext-file=/root/ssh_keys/cloudbuild-key.pub
-  - --location=global
-  - --keyring=cloudbuilder
-  - --key=github-key
+  - ls
+#   - kms
+#   - decrypt
+#   - --ciphertext-file=id_rsa.enc
+#   - --plaintext-file=/root/ssh_keys/cloudbuild-key.pub
+#   - --location=global
+#   - --keyring=cloudbuilder
+#   - --key=github-key
   volumes:
   - name: 'ssh'
     path: /root/.ssh
