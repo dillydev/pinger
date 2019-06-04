@@ -10,6 +10,7 @@ steps:
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   id: load github key
+  entrypoint: bash
   args:
   - ls
 #   - kms
