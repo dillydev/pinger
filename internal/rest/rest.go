@@ -18,5 +18,5 @@ func Run() error {
 		return err
 	}
 
-	return http.ListenAndServe(":9001", mux)
+	return http.ListenAndServe(":8080", mux)
 }

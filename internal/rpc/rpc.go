@@ -4,8 +4,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/dgparker/pinger/internal/handlers"
 	pb "github.com/dgparker/pinger/api/protobuf"
+	"github.com/dgparker/pinger/internal/handlers"
 
 	"google.golang.org/grpc"
 )
