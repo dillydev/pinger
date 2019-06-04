@@ -96,6 +96,7 @@ steps:
   args:
   - '-c'
   - |
+    set -x && \
     cd pinger-env && \
     git add kubernetes.yaml && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA}
