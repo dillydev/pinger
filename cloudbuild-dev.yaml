@@ -6,9 +6,9 @@ substitutions:
 # Build steps for the cloud build process.
 steps:
 # Copy the files from storage needed to connect to git.
-- name: 'gcr.io/cloud-builders/gsutil'
-  id: Copy encrypted key for git
-  args: ['cp', 'gs://pipeline-test-20190604/*', '.']
+- name: 'gcr.io/cloud-builders/gsutil'
+  id: copy ssh keys for github
+  args: ['cp', 'gs://pipeline-test-20190604/*', '.']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: load github key
