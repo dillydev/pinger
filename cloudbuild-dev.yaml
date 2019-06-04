@@ -8,18 +8,21 @@ steps:
 
 # Decrypt the file containing the key
 steps:
+# Copy the files from storage needed to connect to git.
+- name: 'gcr.io/cloud-builders/gsutil'
+  id: Copy encrypted key for git
+  args: ['cp', 'gs://pipeline-test-20190604/*', '.']
+
 - name: 'gcr.io/cloud-builders/gcloud'
   id: load github key
-  entrypoint: bash
   args:
-  - ls
-#   - kms
-#   - decrypt
-#   - --ciphertext-file=id_rsa.enc
-#   - --plaintext-file=/root/ssh_keys/cloudbuild-key.pub
-#   - --location=global
-#   - --keyring=cloudbuilder
-#   - --key=github-key
+  - kms
+  - decrypt
+  - --ciphertext-file=id_rsa.enc
+  - --plaintext-file=/root/.ssh/id_rsa
+  - --location=global
+  - --keyring=cloudbuilder
+  - --key=github-key
   volumes:
   - name: 'ssh'
     path: /root/.ssh
@@ -51,17 +54,6 @@ steps:
   - -mod=vendor
   - -o=./$_EXEC_NAME
   - cmd/Pinger/main.go
-
-# Build and tag the Docker image.
-# - name: 'gcr.io/cloud-builders/docker'
-#   id: Docker Build
-#   args:
-#   - build
-#   - --build-arg
-#   - EXEC_NAME=$_EXEC_NAME
-#   - -t
-#   - 'us.gcr.io/${PROJECT_ID}/${_EXEC_NAME}:${BRANCH_NAME}_${SHORT_SHA}'
-#   - '.'
 
 # This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
