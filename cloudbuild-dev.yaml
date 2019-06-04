@@ -77,10 +77,10 @@ steps:
   args:
   - '-c'
   - |
-    git config --global user.email "dylan.parker@codecave.app"
+    git config --global user.email "dylan.parker@codecave.app" && \
     git clone git@github.com:dillydev/pinger-env.git && \
     cd pinger-env && \
-    git checkout candidate-dev && \
+    git checkout candidate-dev
 
 - name: 'gcr.io/cloud-builders/git'
   id: Generate Manifest
