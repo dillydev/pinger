@@ -3,14 +3,16 @@
 substitutions:
   _EXEC_NAME: 'pinger'
 
+# Build steps for the cloud build process.
 steps:
 # Copy the files from storage needed to connect to git.
 - name: 'gcr.io/cloud-builders/gsutil'
-  id: copy encrypted key for git
+  id: Copy encrypted key for git
   args: ['cp', 'gs://pipeline-test-20190604/*', '.']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   id: load github key
+  entrypoint: bash
   args:
   - kms
   - decrypt
