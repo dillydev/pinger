@@ -3,10 +3,6 @@
 substitutions:
   _EXEC_NAME: 'pinger'
 
-# Build steps for the cloud build process.
-steps:
-
-# Decrypt the file containing the key
 steps:
 # Copy the files from storage needed to connect to git.
 - name: 'gcr.io/cloud-builders/gsutil'
