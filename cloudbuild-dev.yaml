@@ -77,7 +77,7 @@ steps:
   args:
   - '-c'
   - |
-    git clone git@github.com/dillydev/pinger-env && \
+    git clone git@github.com:dillydev/pinger-env.git && \
     cd pinger-env && \
     git checkout candidate-dev && \
     git config --global user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
