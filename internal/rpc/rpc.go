@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-// Run starts the RPC server something
+// Run starts the RPC server
 func Run() error {
 	lis, err := net.Listen("tcp", ":9000")
 	if err != nil {
