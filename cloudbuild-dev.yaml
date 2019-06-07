@@ -70,16 +70,16 @@ steps:
   - 'push'
   - 'gcr.io/$PROJECT_ID/pinger:$SHORT_SHA'
 
-# clone env repo
+# clone k8s repo
 - name: 'gcr.io/cloud-builders/git'
-  id: Checkout environment repo
+  id: Checkout k8s repo
   entrypoint: /bin/sh
   args:
   - '-c'
   - |
     git config --global user.email "dylan.parker@codecave.app" && \
-    git clone git@github.com:dillydev/pinger-env.git && \
-    cd pinger-env && \
+    git clone git@github.com:dillydev/pinger-k8s.git && \
+    cd pinger-k8s && \
     git checkout candidate-dev
   volumes:
   - name: 'ssh'
@@ -92,8 +92,8 @@ steps:
   args:
   - '-c'
   - |
-     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" pinger-env/values.yaml.tpl | \
-     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > pinger-env/pinger/values.yaml
+     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" pinger-k8s/values.yaml.tpl | \
+     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > pinger-k8s/pinger/values.yaml
   volumes:
   - name: 'ssh'
     path: /root/.ssh
@@ -105,7 +105,7 @@ steps:
   args:
   - '-c'
   - |
-    cd pinger-env && \
+    cd pinger-k8s && \
     set -x && \
     git status && \
     git add pinger/values.yaml && \
