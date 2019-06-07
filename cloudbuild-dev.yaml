@@ -93,8 +93,8 @@ steps:
   - '-c'
   - |
     ls && \
-    sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" pinger/templates/deployment.yaml | \
-    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > pinger/templates/deployment.yaml
+    sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" pinger-env/pinger/templates/deployment.yaml | \
+    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > pinger-env/pinger/templates/deployment.yaml
   volumes:
   - name: 'ssh'
     path: /root/.ssh
