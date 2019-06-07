@@ -106,8 +106,9 @@ steps:
   args:
   - '-c'
   - |
-    ls && \
+    cd pinger-env && \
     set -x && \
+    git status && \
     git add pinger/templates/deployment.yaml && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA}
     Build from commit ${Commit_SHA} of repository pinger" && \
