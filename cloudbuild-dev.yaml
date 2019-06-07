@@ -92,8 +92,9 @@ steps:
   args:
   - '-c'
   - |
-    sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" pinger-env/pinger/templates/deployment.yaml | \
-    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > pinger-env/pinger/templates/deployment.yaml
+    ls && \
+    sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" pinger/templates/deployment.yaml | \
+    sed "s/COMMIT_SHA/${SHORT_SHA}/g" > pinger/templates/deployment.yaml
   volumes:
   - name: 'ssh'
     path: /root/.ssh
@@ -105,6 +106,7 @@ steps:
   args:
   - '-c'
   - |
+    ls && \
     set -x && \
     git add pinger/templates/deployment.yaml && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA}
