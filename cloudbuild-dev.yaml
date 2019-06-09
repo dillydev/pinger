@@ -81,8 +81,8 @@ steps:
   args:
   - '-c'
   - |
-    git clone git@github.com:$_GITHUB_ORG/$REPO_NAME-k8s.git && \
-    cd $REPO_NAME-k8s && \
+    git clone git@github.com:$_GITHUB_ORG/$_GITHUB_REPO-k8s.git && \
+    cd $_GITHUB_REPO-k8s && \
     git checkout candidate-dev && \
     git config --global user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
   volumes:
@@ -96,8 +96,8 @@ steps:
   args:
   - '-c'
   - |
-     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" $REPO_NAME-k8s/values.yaml.tpl | \
-     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > $REPO_NAME-k8s/$_EXEC_NAME/values.yaml
+     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" $_GITHUB_REPO-k8s/values.yaml.tpl | \
+     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > $_GITHUB_REPO-k8s/$_EXEC_NAME/values.yaml
   volumes:
   - name: 'ssh'
     path: /root/.ssh
@@ -108,7 +108,7 @@ steps:
   args:
   - '-c'
   - |
-    cd $REPO_NAME-k8s && \
+    cd $_GITHUB_REPO-k8s && \
     helm template --output-dir ./manifests ./$_EXEC_NAME
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
@@ -121,10 +121,10 @@ steps:
   args:
   - '-c'
   - |
-    cd $REPO_NAME-k8s && \
+    cd $_GITHUB_REPO-k8s && \
     git add $_EXEC_NAME manifests && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/$_EXEC_NAME:${SHORT_SHA} 
-    Build from commit ${Commit_SHA} of repository $REPO_NAME" && \
+    Build from commit ${Commit_SHA} of repository $_GITHUB_REPO" && \
     git push origin candidate-dev
   volumes:
   - name: 'ssh'
