@@ -17,6 +17,6 @@ func New() (*Server, error) {
 // Ping ...
 func (s *Server) Ping(context.Context, *protobuf.PingRequest) (*protobuf.PingResponse, error) {
 	return &protobuf.PingResponse{
-		Message: "test update 2",
+		Message: "test update",
 	}, nil
 }
