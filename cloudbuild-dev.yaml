@@ -108,6 +108,7 @@ steps:
     git add pinger && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA} 
     Build from commit ${Commit_SHA} of repository pinger" && \
+    git fetch && \
     git push origin candidate-dev
   volumes:
   - name: 'ssh'
