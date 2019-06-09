@@ -99,6 +99,18 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
 
+- name: 'gcr.io/$PROJECT_ID/helm'
+  id: generate manifest
+  entrypoint: bash
+  args:
+  - '-c'
+  - |
+    cd pinger-k8s && \
+    helm template --output-dir ./manifests ./pinger
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=hello-cloudbuild'
+
 # push new helm values to k8s repo
 - name: 'gcr.io/cloud-builders/git'
   id: commit new helm values
@@ -107,7 +119,7 @@ steps:
   - '-c'
   - |
     cd pinger-k8s && \
-    git add pinger && \
+    git add pinger manifests && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA} 
     Build from commit ${Commit_SHA} of repository pinger" && \
     git push origin candidate-dev
