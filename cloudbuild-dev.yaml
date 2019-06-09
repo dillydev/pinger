@@ -2,6 +2,8 @@
 # Important - Custom variables must begin with '_'.
 substitutions:
   _EXEC_NAME: 'pinger'
+  _MAIN_PATH: 'cmd/Pinger/main.go'
+  _GITHUB_ORG: 'dillydev'
 
 # Build steps for the cloud build process.
 steps:
@@ -51,7 +53,7 @@ steps:
   - build
   - -mod=vendor
   - -o=./$_EXEC_NAME
-  - cmd/Pinger/main.go
+  - $_MAIN_PATH
 
 # This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
@@ -61,7 +63,7 @@ steps:
   - --build-arg
   - EXEC_NAME=$_EXEC_NAME
   - '-t'
-  - 'gcr.io/$PROJECT_ID/pinger:$SHORT_SHA'
+  - 'gcr.io/$PROJECT_ID/$_EXEC_NAME:$SHORT_SHA'
   - '.'
 
 # Retag the current image into latest.
@@ -69,7 +71,7 @@ steps:
   id: Docker Push
   args:
   - 'push'
-  - 'gcr.io/$PROJECT_ID/pinger:$SHORT_SHA'
+  - 'gcr.io/$PROJECT_ID/$_EXEC_NAME:$SHORT_SHA'
 
 # clone k8s repo
 - name: 'gcr.io/cloud-builders/git'
@@ -78,8 +80,8 @@ steps:
   args:
   - '-c'
   - |
-    git clone git@github.com:dillydev/pinger-k8s.git && \
-    cd pinger-k8s && \
+    git clone git@github.com:$_GITHUB_ORG/$REPO_NAME-k8s.git && \
+    cd $REPO_NAME-k8s && \
     git checkout candidate-dev && \
     git config --global user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
   volumes:
@@ -93,8 +95,8 @@ steps:
   args:
   - '-c'
   - |
-     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" pinger-k8s/values.yaml.tpl | \
-     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > pinger-k8s/pinger/values.yaml
+     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" $REPO_NAME-k8s/values.yaml.tpl | \
+     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > $REPO_NAME-k8s/$_EXEC_NAME/values.yaml
   volumes:
   - name: 'ssh'
     path: /root/.ssh
@@ -105,8 +107,8 @@ steps:
   args:
   - '-c'
   - |
-    cd pinger-k8s && \
-    helm template --output-dir ./manifests ./pinger
+    cd $REPO_NAME-k8s && \
+    helm template --output-dir ./manifests ./$_EXEC_NAME
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
   - 'CLOUDSDK_CONTAINER_CLUSTER=hello-cloudbuild'
@@ -118,10 +120,10 @@ steps:
   args:
   - '-c'
   - |
-    cd pinger-k8s && \
-    git add pinger manifests && \
-    git commit -m "Deploying image gcr.io./${PROJECT_ID}/pinger:${SHORT_SHA} 
-    Build from commit ${Commit_SHA} of repository pinger" && \
+    cd $REPO_NAME-k8s && \
+    git add $_EXEC_NAME manifests && \
+    git commit -m "Deploying image gcr.io./${PROJECT_ID}/$_EXEC_NAME:${SHORT_SHA} 
+    Build from commit ${Commit_SHA} of repository $REPO_NAME" && \
     git push origin candidate-dev
   volumes:
   - name: 'ssh'
