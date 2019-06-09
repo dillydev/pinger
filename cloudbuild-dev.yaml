@@ -2,7 +2,7 @@
 # Important - Custom variables must begin with '_'.
 substitutions:
   _EXEC_NAME: 'pinger'
-  _MAIN_PATH: 'cmd/Pinger/main.go'
+  _GO_BUILD_PATH: 'cmd/Pinger/main.go'
   _GITHUB_ORG: 'dillydev'
   _GITHUB_REPO: 'pinger'
 
@@ -54,7 +54,7 @@ steps:
   - build
   - -mod=vendor
   - -o=./$_EXEC_NAME
-  - $_MAIN_PATH
+  - $_GO_BUILD_PATH
 
 # This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
