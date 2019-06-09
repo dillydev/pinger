@@ -4,6 +4,7 @@ substitutions:
   _EXEC_NAME: 'pinger'
   _MAIN_PATH: 'cmd/Pinger/main.go'
   _GITHUB_ORG: 'dillydev'
+  _GITHUB_REPO: 'pinger'
 
 # Build steps for the cloud build process.
 steps:
