@@ -51,7 +51,8 @@ steps:
   id: Go Build
   args:
   - |
-    bin/generate.sh && \
+    ls && \
+    ./bin/generate.sh && \
     go build -mod=vendor -o=./$_EXEC_NAME $_GO_BUILD_PATH
   # - go
   # - build
