@@ -49,12 +49,16 @@ steps:
 # Important - The 'golang:alpine' image points to the latest go version.
 - name: 'golang:alpine'
   id: Go Build
+  entrypoint: bin/sh
   args:
-  - go
-  - build
-  - -mod=vendor
-  - -o=./$_EXEC_NAME
-  - $_GO_BUILD_PATH
+  - |
+    bin/generate.sh && \
+    go build -mod=vendor -o=./$_EXEC_NAME $_GO_BUILD_PATH
+  # - go
+  # - build
+  # - -mod=vendor
+  # - -o=./$_EXEC_NAME
+  # - $_GO_BUILD_PATH
 
 # This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
