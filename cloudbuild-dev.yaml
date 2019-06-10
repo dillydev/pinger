@@ -122,7 +122,7 @@ steps:
   - '-c'
   - |
     cd $_GITHUB_REPO-k8s && \
-    git add $_EXEC_NAME manifests && \
+    git add $_EXEC_NAME manifests $_EXEC_NAME && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/$_EXEC_NAME:${SHORT_SHA} 
     Build from commit ${Commit_SHA} of repository $_GITHUB_REPO" && \
     git push origin candidate-dev
