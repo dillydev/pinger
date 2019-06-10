@@ -49,7 +49,6 @@ steps:
 # Important - The 'golang:alpine' image points to the latest go version.
 - name: 'golang:alpine'
   id: Go Build
-  entrypoint: bash
   args:
   - |
     bin/generate.sh && \
