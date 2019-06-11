@@ -53,14 +53,7 @@ steps:
   args:
   - '-c'
   - |
-    ls && \
-    ./bin/generate.sh && \
     go build -mod=vendor -o=./$_EXEC_NAME $_GO_BUILD_PATH
-  # - go
-  # - build
-  # - -mod=vendor
-  # - -o=./$_EXEC_NAME
-  # - $_GO_BUILD_PATH
 
 # This step builds the container image.
 - name: 'gcr.io/cloud-builders/docker'
@@ -128,7 +121,7 @@ steps:
   - '-c'
   - |
     cd $_GITHUB_REPO-k8s && \
-    git add $_EXEC_NAME manifests $_EXEC_NAME && \
+    git add $_EXEC_NAME manifests && \
     git commit -m "Deploying image gcr.io./${PROJECT_ID}/$_EXEC_NAME:${SHORT_SHA} 
     Build from commit ${Commit_SHA} of repository $_GITHUB_REPO" && \
     git push origin candidate-dev
